@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useBreedList from "./useBreedList";
 import Results from "./Results";
+import { useQuery } from "@tanstack/react-query";
+import fetchSearch from "./fetchSearch";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
@@ -8,27 +10,20 @@ const SearchParams = () => {
     const [location, setLocation] = useState("");
     const [animal, setAnimal] = useState("");
     const [breed, setBreed] = useState("");
-    const [pets, setPets] = useState([]);
     const [breeds] = useBreedList(animal);
+    const results = useQuery(
+        ["search", { animal, breed, location }],
+        fetchSearch
+    );
 
-    useEffect(() => {
-        requestPets();
-    }, []);
-
-    async function requestPets() {
-        const response = await fetch(
-            `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
-        );
-        const data = await response.json();
-        setPets(data.pets);
-    }
+    const pets = results?.data?.pets ?? [];
 
     return (
         <div className="search-params">
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
-                    requestPets();
+                    // requestPets();
                 }}
             >
                 <label htmlFor="location">Location</label>
