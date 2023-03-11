@@ -7,14 +7,14 @@ import fetchSearch from "./fetchSearch";
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-    const [location, setLocation] = useState("");
+    const [requestParams, setRequestParams] = useState({
+        location: "",
+        animal: "",
+        breed: "",
+    });
     const [animal, setAnimal] = useState("");
-    const [breed, setBreed] = useState("");
     const [breeds] = useBreedList(animal);
-    const results = useQuery(
-        ["search", { animal, breed, location }],
-        fetchSearch
-    );
+    const results = useQuery(["search", requestParams], fetchSearch);
 
     const pets = results?.data?.pets ?? [];
 
@@ -23,16 +23,22 @@ const SearchParams = () => {
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
-                    // requestPets();
+                    const formData = new FormData(event.target);
+                    const data = {
+                        animal: formData.get("animal") ?? "",
+                        breed: formData.get("breed") ?? "",
+                        location: formData.get("location") ?? "",
+                    };
+
+                    setRequestParams(data);
                 }}
             >
                 <label htmlFor="location">Location</label>
                 <input
+                    name="location"
                     type="text"
                     id="location"
                     placeholder="Location"
-                    value={location}
-                    onChange={(event) => setLocation(event.target.value)}
                 />
                 <label htmlFor="animal">Animal</label>
                 <select
@@ -40,8 +46,8 @@ const SearchParams = () => {
                     value={animal}
                     onChange={(event) => {
                         setAnimal(event.target.value);
-                        setBreed("");
                     }}
+                    name="animal"
                 >
                     {ANIMALS.map((animal) => (
                         <option key={animal} value={animal}>
@@ -51,12 +57,7 @@ const SearchParams = () => {
                 </select>
 
                 <label htmlFor="breed">Breed</label>
-                <select
-                    id="breed"
-                    value={breed}
-                    onChange={(event) => setBreed(event.target.value)}
-                    disabled={!breeds.length}
-                >
+                <select id="breed" disabled={!breeds.length} name="breed">
                     {breeds.map((breed) => (
                         <option key={breed} value={breed}>
                             {breed}
