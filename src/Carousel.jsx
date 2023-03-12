@@ -1,23 +1,16 @@
 import { Component } from "react";
 
 class Carousel extends Component {
-    state = {
-        active: 0,
-    };
-
     static defaultProps = {
         images: ["http://pets-images.dev-apis.com/pets/none.jpg"],
     };
 
     handleIndexClick = (event) => {
-        this.setState({
-            active: +event.target.dataset.index,
-        });
+        this.props.setActiveImage(+event.target.dataset.index);
     };
 
     render() {
-        const { images } = this.props;
-        const { active } = this.state;
+        const { images, activeImage: active } = this.props;
 
         return (
             <div className="carousel">

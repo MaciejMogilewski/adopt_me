@@ -14,6 +14,7 @@ const Details = () => {
     // eslint-disable-next-line no-unused-vars
     const [_, setAdoptedPet] = useContext(AdoptPetContext);
     const navigate = useNavigate();
+    const [activeImage, setActiveImage] = useState(0);
 
     if (results.isLoading) {
         return (
@@ -27,7 +28,11 @@ const Details = () => {
 
     return (
         <div className="details">
-            <Carousel images={pet.images} />
+            <Carousel
+                activeImage={activeImage}
+                setActiveImage={setActiveImage}
+                images={pet.images}
+            />
             <div>
                 <h1>{pet.name}</h1>
                 <h2>{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
@@ -46,7 +51,7 @@ const Details = () => {
                             <div className="buttons">
                                 <button
                                     onClick={() => {
-                                        setAdoptedPet(pet);
+                                        setAdoptedPet({ ...pet, activeImage });
                                         navigate("/");
                                     }}
                                 >
