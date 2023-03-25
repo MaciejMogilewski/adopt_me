@@ -3,9 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
-import Modal from "./Modal";
-import { useContext, useState } from "react";
+import { lazy, useContext, useState } from "react";
 import AdoptPetContext from "./AdoptPetContext";
+
+const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
     const { id } = useParams();

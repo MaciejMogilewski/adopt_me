@@ -6,11 +6,11 @@ const Pet = ({ name, id, breed, animal, location, images }) => {
         : "http://pets-images.dev-apis.com/pets/none.jpg";
 
     return (
-        <Link className="relative block" to={`/details/${id}`}>
-            <div>
+        <Link className="relative block pet" to={`/details/${id}`}>
+            <div className="image-container">
                 <img src={hero} alt={name} />
             </div>
-            <div className="absolute bottom-0 left-0 bg-gradient-to-tr from-white to-transparent pr-2 pt-2">
+            <div className="absolute bottom-0 left-0 bg-gradient-to-tr from-white to-transparent pr-2 pt-2 info">
                 <h1>{name}</h1>
                 <h2>
                     {animal} - {breed} - {location}
