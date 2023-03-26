@@ -2,11 +2,14 @@ import { Component, MouseEvent } from "react";
 
 interface IProps {
     images: string[];
-    activeImage: number;
     setActiveImage: (activeImage: number) => void;
 }
 
 class Carousel extends Component<IProps> {
+    state = {
+        active: 0,
+    };
+
     static defaultProps = {
         images: ["http://pets-images.dev-apis.com/pets/none.jpg"],
     };
@@ -17,16 +20,18 @@ class Carousel extends Component<IProps> {
         }
 
         if (event.target.dataset.index) {
+            this.setState({ active: +event.target.dataset.index });
             this.props.setActiveImage(+event.target.dataset.index);
         }
     };
 
     render() {
-        const { images, activeImage: active } = this.props;
+        const { images } = this.props;
+        const { active } = this.state;
 
         return (
             <div className="carousel">
-                <img src={images[active]} alt="animal" />
+                <img src={images[active]} alt="animal" data-testid="hero" />
                 <div className="carousel-smaller">
                     {images.map((image, idx) => (
                         // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
@@ -36,6 +41,7 @@ class Carousel extends Component<IProps> {
                             className={idx === active ? "active" : ""}
                             key={image}
                             data-index={idx}
+                            data-testid={`thumbnail-${idx}`}
                             onClick={this.handleIndexClick}
                         />
                     ))}

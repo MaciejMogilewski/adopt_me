@@ -8,8 +8,6 @@ import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import AdoptPetContext from "./AdoptPetContext";
 
-import { PetAPIResponse } from "./APIResponsesTypes";
-
 const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
@@ -44,11 +42,7 @@ const Details = () => {
 
     return (
         <div className="details">
-            <Carousel
-                activeImage={activeImage}
-                setActiveImage={setActiveImage}
-                images={pet.images}
-            />
+            <Carousel setActiveImage={setActiveImage} images={pet.images} />
             <div>
                 <h1>{pet.name}</h1>
                 <h2>{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
