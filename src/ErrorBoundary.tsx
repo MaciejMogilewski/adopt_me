@@ -1,7 +1,7 @@
-import { Component } from "react";
+import { Component, ErrorInfo, ReactElement } from "react";
 import { Link } from "react-router-dom";
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends Component<{ children: ReactElement }> {
     state = {
         hasError: false,
     };
@@ -12,7 +12,7 @@ class ErrorBoundary extends Component {
         };
     }
 
-    componentDidCatch(error, errorInfo) {
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.error(
             `ErrorBoundary component caught an error`,
             error,
